@@ -4,11 +4,14 @@ import './styles/index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { PortfolioProvider } from './hooks/usePortfolio';
+import AuthProvider from './contexts/AuthProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <PortfolioProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </PortfolioProvider>
   </React.StrictMode>,
   document.getElementById('root')
