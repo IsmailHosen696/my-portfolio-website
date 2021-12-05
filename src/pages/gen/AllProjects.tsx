@@ -3,7 +3,7 @@ import React from 'react'
 export default function AllProjects() {
     return (
         <React.Fragment>
-            all projects
+            all project
         </React.Fragment>
     )
 }
