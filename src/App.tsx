@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import NotFound from './pages/gen/NotFound';
 
 
 const RootPage = lazy(() => import('./pages/gen/Root'));
@@ -24,6 +25,7 @@ function App() {
             </Route>
             <Route path='/signin' element={<Signin />} />
             <Route path='/signup' element={<Signup />} />
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </Router>
       </Suspense>

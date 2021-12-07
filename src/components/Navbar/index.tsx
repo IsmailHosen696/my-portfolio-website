@@ -5,11 +5,13 @@ import { MenuIcon } from '@heroicons/react/solid'
 import { useState } from "react";
 import { usePortfolio } from "../../hooks/usePortfolio";
 import { Actions } from "../../constants";
+import { useAuth } from "../../contexts/AuthProvider";
 
 
 export default function Navbar() {
     const [isMenuBarOpen, setIsMenuBarOpen] = useState<boolean>(false);
     const { state: { darkMode }, dispatch } = usePortfolio();
+    const { user, logout } = useAuth()
     return (
         <div className="sticky left-0 right-0 z-30 top-0 w-full h-16 items-center flex justify-center bg-white dark:bg-gray-900">
             <div className="flex mx-auto sm:px-10 px-5 max-w-screen-2xl items-center justify-between relative w-full">
@@ -23,9 +25,15 @@ export default function Navbar() {
                     <NavLink className="text-lg hover:text-gray-700 dark:hover:text-gray-300" to='/projects'>
                         Project
                     </NavLink>
-                    <NavLink className="text-lg hover:text-gray-700 dark:hover:text-gray-300" to='/contact'>
-                        Contact
-                    </NavLink>
+                    {user?.isAdmin ?
+                        <NavLink to='/create/project/new' className='text-lg hover:text-gray-700 dark:hover:text-gray-300'>
+                            AddProject
+                        </NavLink>
+                        :
+                        <NavLink className="text-lg hover:text-gray-700 dark:hover:text-gray-300" to='/contact'>
+                            Contact
+                        </NavLink>
+                    }
                     <button onClick={() => dispatch({ type: Actions.TOOGLE_DARK_MODE })} className="hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-lg transition-all duration-150">
                         {
                             darkMode ?
@@ -34,9 +42,14 @@ export default function Navbar() {
                                 <SunIcon className="w-5 h-5" />
                         }
                     </button>
-                    <Link to='/signin' className="text-lg bg-blue-500 rounded-3xl text-white font-bold w-24 flex items-center justify-center h-9 hover:bg-blue-600">
-                        Login
-                    </Link>
+                    {user ?
+                        <button onClick={() => logout()} className="w-6 h-6 rounded-full bg-blue-500 text-white">
+                            {user.displayName?.split("")[0]}{user.displayName?.split("")[1]}
+                        </button>
+                        :
+                        <Link to='/signin' className="text-lg bg-blue-500 rounded-3xl text-white font-bold w-24 flex items-center justify-center h-9 hover:bg-blue-600">
+                            Login
+                        </Link>}
                 </div>
                 <div className="flex sm:hidden">
                     <button className="sm:hidden" onClick={() => setIsMenuBarOpen(!isMenuBarOpen)}>

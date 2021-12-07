@@ -6,3 +6,6 @@
   padding: 0;
   font-family: Roboto, "sans-serif";
 }
+.active {
+  @apply border-b border-gray-300 dark:border-gray-600;
+}

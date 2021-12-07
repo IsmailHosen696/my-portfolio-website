@@ -1,7 +1,10 @@
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { FirebaseError } from "firebase/app";
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../components/loading/Loading";
+import { auth, provider } from "../../db/firebase";
 
 export default function Signup() {
     const [error, setError] = useState<string>('');
@@ -11,6 +14,10 @@ export default function Signup() {
     const [cPassword, setCPassword] = useState<string>('');
     const [eyeOpen, setEyeOpen] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false)
+
+    const navigate = useNavigate();
+
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setError('');
@@ -34,11 +41,35 @@ export default function Signup() {
 
         } else {
             try {
-
+                await createUserWithEmailAndPassword(auth, email, password).then((user) => {
+                    updateProfile(user.user, { displayName: username }).then(() => {
+                        navigate('/');
+                        setLoading(false);
+                        setLoading(false)
+                    })
+                        .catch((err: FirebaseError) => {
+                            setError(err.message);
+                            setLoading(false)
+                        })
+                })
+                    .catch((err: FirebaseError) => {
+                        setError(err.message);
+                        setLoading(false)
+                    })
             } catch (error) {
                 console.log(error);
             }
         }
+    }
+    const googleLogin = async () => {
+        setLoading(true)
+        await signInWithPopup(auth, provider).then(() => {
+            navigate('/');
+            setLoading(false)
+        }).catch((err: FirebaseError) => {
+            setError(err.message);
+            setLoading(false)
+        })
     }
     return (
         <div className="w-full flex items-center justify-center">
@@ -94,7 +125,7 @@ export default function Signup() {
                     </div>
                     <button className="w-full mt-3 text-lg outline-none bg-blue-500 text-white cursor-pointer rounded h-10" disabled={loading} >{loading ? <Loading /> : "Signup"}</button>
                 </form>
-                <button className="w-full flex items-center justify-center border h-10 rounded" disabled={loading} >{loading ? <Loading /> : <span><i className="fab fa-google text-blue-500 text-lg px-2"></i> Continue with Google</span>}</button>
+                <button onClick={googleLogin} className="w-full flex items-center justify-center border h-10 rounded" disabled={loading} >{loading ? <Loading /> : <span><i className="fab fa-google text-blue-500 text-lg px-2"></i> Continue with Google</span>}</button>
                 <div className="flex  flex-col mt-5">
                     <Link to='/signin' className="text-center">Already have an account ? <span className="hover:underline hover:text-blue-600">Signin</span></Link>
                 </div>

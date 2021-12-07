@@ -1,11 +1,11 @@
-import { signInWithEmailAndPassword, signOut, updateProfile, UserCredential } from "firebase/auth";
-import { useContext, createContext } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useContext, createContext, useEffect, useState } from "react";
 import { auth } from "../db/firebase";
+import { userType } from "../types";
 
 export interface AuthContextType {
-    signin: (email: string, password: string) => Promise<UserCredential>
-    signup: (email: string, password: string, username: string) => Promise<void>
     logout: () => Promise<void>;
+    user: userType | null;
 }
 
 const AuthContexts = createContext({} as AuthContextType);
@@ -16,22 +16,30 @@ export const useAuth = () => {
 
 export default function AuthProvider(props: { children: any }) {
     const getAuth = auth;
+    const [user, setUser] = useState<userType | null>(null);
 
-    async function signin(email: string, password: string) {
-        return signInWithEmailAndPassword(getAuth, email, password)
-    }
-    async function signup(email: string, password: string, username: string) {
-        return signInWithEmailAndPassword(getAuth, email, password).then((user) => {
-            updateProfile(user.user, { displayName: username });
+    useEffect(() => {
+        onAuthStateChanged(getAuth, (data) => {
+            if (data) {
+                const res: userType = {
+                    uid: data?.uid,
+                    displayName: data?.displayName as string,
+                    email: data?.email as string,
+                    photoURL: data?.photoURL,
+                    isAdmin: data?.email === process.env.ADMIN_EMAIL ? true : false
+                }
+                setUser(res);
+            } else {
+                return setUser(null)
+            }
         })
-    }
+    });
     async function logout() {
-        return signOut(getAuth);
+        return signOut(getAuth)
     }
     const value = {
-        signin,
-        signup,
-        logout
+        logout,
+        user
     }
     return (
         <AuthContexts.Provider value={value}>
