@@ -1,24 +1,24 @@
-const colors = require('tailwindcss/colors')
+const colors = require("tailwindcss/colors");
 
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: 'class',
+  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class", // or 'media' or 'class'
+  mode: "jit",
   theme: {
-    colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      gray: colors.gray,
-      blue: colors.blue,
-      white: colors.white,
-      yellow: colors.yellow,
-      purple: colors.purple,
-      red: colors.red,
-      green: colors.green
+    extend: {
+      colors: {
+        gray: {
+          ...colors.gray,
+        },
+        primary: colors.indigo,
+      },
     },
-    extend: {},
   },
   variants: {
     extend: {},
   },
-  plugins: [],
-}
+  corePlugins: {
+    container: false,
+  },
+  plugins: [require("@tailwindcss/typography")],
+};

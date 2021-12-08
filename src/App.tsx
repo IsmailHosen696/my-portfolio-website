@@ -1,20 +1,21 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoadingOn from './components/loading/LoadingOn';
+import AllProjects from './pages/gen/AllProjects';
+import Contact from './pages/gen/Contact';
+import Home from './pages/gen/Home';
 import NotFound from './pages/gen/NotFound';
+import Project from './pages/gen/Project';
 
 
 const RootPage = lazy(() => import('./pages/gen/Root'));
 const Signin = lazy(() => import('./pages/auth/Signin'));
 const Signup = lazy(() => import('./pages/auth/Signup'));
-const Home = lazy(() => import('./pages/gen/Home'));
-const Contact = lazy(() => import('./pages/gen/Contact'));
-const AllProjects = lazy(() => import('./pages/gen/AllProjects'));
-const Project = lazy(() => import('./pages/gen/Project'));
 
 function App() {
   return (
     <React.Fragment>
-      <Suspense fallback={<p>loading...</p>}>
+      <Suspense fallback={<LoadingOn />}>
         <Router>
           <Routes>
             <Route path='/' element={<RootPage />} >

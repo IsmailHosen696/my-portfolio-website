@@ -7,5 +7,43 @@
   font-family: Roboto, "sans-serif";
 }
 .active {
-  @apply border-b border-gray-300 dark:border-gray-600;
+  @apply border-b-2 border-gray-300 dark:border-gray-600;
+}
+.nunito {
+  font-family: Nunito, "sans-serif";
+}
+.skillcard {
+  @apply flex lg:w-96 md:w-80 w-full gap-5 dark:bg-gray-800 bg-gray-50 rounded-md p-4 flex-col;
+}
+.headline {
+  @apply text-2xl font-medium nunito;
+}
+@layer utilities {
+  .prose,
+  .prose-lg {
+    @apply text-gray-900 dark:text-white max-w-none;
+    p,
+    li,
+    strong,
+    ul,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    code,
+    a,
+    h6 {
+      @apply text-gray-900 dark:text-white;
+    }
+    code {
+      @apply bg-gray-200 dark:bg-gray-700 p-1 rounded;
+    }
+    pre {
+      @apply bg-gray-900 dark:bg-gray-800;
+      code {
+        @apply bg-transparent dark:bg-transparent;
+      }
+    }
+  }
 }

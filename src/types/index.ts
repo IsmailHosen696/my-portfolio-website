@@ -5,3 +5,9 @@ export type userType = {
     photoURL?: string | null,
     isAdmin: boolean
 }
+export interface projectType {
+    id: string;
+    headline: string;
+    description: string
+    showCase: string
+}

@@ -26,14 +26,14 @@ export default function AuthProvider(props: { children: any }) {
                     displayName: data?.displayName as string,
                     email: data?.email as string,
                     photoURL: data?.photoURL,
-                    isAdmin: data?.email === process.env.ADMIN_EMAIL ? true : false
+                    isAdmin: data?.email === process.env.REACT_APP_ADMIN_EMAIL ? true : false
                 }
                 setUser(res);
             } else {
                 return setUser(null)
             }
         })
-    });
+    }, [getAuth]);
     async function logout() {
         return signOut(getAuth)
     }

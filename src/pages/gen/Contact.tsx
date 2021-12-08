@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Loading from "../../components/loading/Loading";
 
 export default function Contact() {
@@ -9,6 +9,11 @@ export default function Contact() {
     const [message, setMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false)
     const [successMessage, setSuccessMessage] = useState<string>('')
+
+    useEffect(() => {
+        document.title = 'IsmailHsn - Contact'
+    })
+
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         setError('');
