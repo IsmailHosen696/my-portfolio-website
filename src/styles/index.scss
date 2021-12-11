@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 * {
   margin: 0;
   padding: 0;
@@ -16,7 +17,13 @@
   @apply flex lg:w-96 md:w-80 w-full gap-5 dark:bg-gray-800 bg-gray-50 rounded-md p-4 flex-col;
 }
 .headline {
-  @apply text-2xl font-medium nunito;
+  @apply text-2xl font-medium;
+}
+.success-status {
+  @apply text-green-600 bg-green-600 bg-opacity-10 py-2 rounded;
+}
+.error-status {
+  @apply text-red-600 bg-red-600 bg-opacity-10 py-2 rounded;
 }
 @layer utilities {
   .prose,

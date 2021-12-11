@@ -1,19 +1,32 @@
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
-import { projectType } from "../../types";
 
 export default function ProjectMap({ id,
     headline,
-    description,
-    showCase
-}: projectType) {
+    projectProfile,
+    time
+}: {
+    id: string;
+    headline: string;
+    projectProfile: string;
+    time: string;
+}) {
 
     return (
-        <Link to={`/show/project/${id}`} className="group w-full">
-            <img src={showCase} alt="showcase_image" />
-            <div className="flex flex-row items-center">
-                <h1 className="text-2xl">{headline}</h1>
-                <ArrowRightIcon className="w-5 text-gray-700 h-5 opacity-0 group-hover:opacity-100 ml-5 transition-all duration-150" />
+        <Link to={`/show/project/${id}`} className="group w-full gap-3 flex flex-col">
+            <img src={projectProfile} alt="showcase_image" />
+            <p className="text-sm">
+                {
+                    new Date(time).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                    })
+                }
+            </p>
+            <div className="flex flex-row items-center overflow-hidden">
+                <h1 className="text-xl group-hover:underline truncate">{headline}</h1>
+                <ArrowRightIcon className="w-5 dark:text-gray-300 text-gray-700 h-5 opacity-0 group-hover:opacity-100 ml-5 transition-all duration-150" />
             </div>
         </Link>
     )

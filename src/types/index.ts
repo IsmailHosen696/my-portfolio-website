@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export type userType = {
     uid: string | undefined,
     displayName: string | undefined,
@@ -9,5 +11,8 @@ export interface projectType {
     id: string;
     headline: string;
     description: string
-    showCase: string
+    projectProfile: string,
+    timestamp: string,
+    hostedURL: string | undefined,
+    gitRepoURL: string
 }

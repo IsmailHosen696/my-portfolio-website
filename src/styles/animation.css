@@ -1,0 +1,25 @@
+.animate-loop {
+  background-color: rgb(0, 0, 0);
+  border-radius: 100%;
+  width: 12px;
+  height: 12px;
+  animation: animate 700ms infinite;
+}
+.animate-loop:nth-child(2) {
+  animation-delay: 100ms;
+}
+.animate-loop:nth-child(3) {
+  animation-delay: 150ms;
+}
+@keyframes animate {
+  from {
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+  }
+  to {
+    /* border-radius: 100%; */
+    width: 0px;
+    height: 0px;
+  }
+}

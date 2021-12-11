@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { AllSkills } from "../../components/homeall";
-import ProjectsP from "../../components/homeall/ProjectsP";
+import ProjectsRandom from "../../components/homeall/ProjectsRandom";
 
 export default function Home() {
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function Home() {
                     <AllSkills />
                 </div>
                 <div className="flex w-full">
-                    <ProjectsP />
+                    <ProjectsRandom />
                 </div>
             </div>
         </div>

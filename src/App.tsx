@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoadingOn from './components/loading/LoadingOn';
+import AddProject from './pages/gen/AddProject';
 import AllProjects from './pages/gen/AllProjects';
 import Contact from './pages/gen/Contact';
 import Home from './pages/gen/Home';
@@ -22,7 +23,8 @@ function App() {
               <Route path='/' element={<Home />} />
               <Route path='/contact' element={<Contact />} />
               <Route path='/projects' element={<AllProjects />} />
-              <Route path='/project/:pId' element={<Project />} />
+              <Route path='/create/project/new' element={<AddProject />} />
+              <Route path='/show/project/:pId' element={<Project />} />
             </Route>
             <Route path='/signin' element={<Signin />} />
             <Route path='/signup' element={<Signup />} />

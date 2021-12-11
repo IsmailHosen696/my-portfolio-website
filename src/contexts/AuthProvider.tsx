@@ -1,11 +1,16 @@
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useContext, createContext, useEffect, useState } from "react";
-import { auth } from "../db/firebase";
-import { userType } from "../types";
+import { auth, storage } from "../db/firebase";
+import { projectType, userType } from "../types";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { allProjectsFromFirbase } from "../api";
+import { FirebaseError } from "firebase/app";
 
 export interface AuthContextType {
     logout: () => Promise<void>;
     user: userType | null;
+    imageUrlMaker: (file: any) => Promise<unknown>;
+    project: projectType[]
 }
 
 const AuthContexts = createContext({} as AuthContextType);
@@ -17,7 +22,7 @@ export const useAuth = () => {
 export default function AuthProvider(props: { children: any }) {
     const getAuth = auth;
     const [user, setUser] = useState<userType | null>(null);
-
+    const [project, setProject] = useState<projectType[]>([]);
     useEffect(() => {
         onAuthStateChanged(getAuth, (data) => {
             if (data) {
@@ -34,12 +39,43 @@ export default function AuthProvider(props: { children: any }) {
             }
         })
     }, [getAuth]);
+
     async function logout() {
         return signOut(getAuth)
     }
+
+    const imageUrlMaker = async (file: any) => {
+        const storageRef = ref(storage, 'images/' + file.name);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        return new Promise((resolve, reject) => {
+            uploadTask.on('state_changed',
+                (snapshot) => { },
+                (error) => {
+                    reject(error.message)
+                },
+                () =>
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
+                        resolve(downloadURL);
+                    })
+            )
+        })
+    }
+    const allProjects = async () => {
+        await allProjectsFromFirbase().then((data) => {
+            setProject(data);
+        }).catch((err: FirebaseError) => {
+            console.log(err.message);
+        })
+    }
+    useEffect(() => {
+        allProjects()
+    }, [project]);
+
     const value = {
         logout,
-        user
+        user,
+        imageUrlMaker,
+        project
     }
     return (
         <AuthContexts.Provider value={value}>
