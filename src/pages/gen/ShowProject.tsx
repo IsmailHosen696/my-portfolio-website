@@ -52,8 +52,8 @@ export default function ShowProject() {
                         </p>
                     </div>
                     <div className="flex items-center gap-5 flex-row">
-                        {project?.hostedURL && <a about="_ismail" title="view live view of the project" href={`${project?.hostedURL}`} ><LinkIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" /></a>}
-                        <a about="_ismail" href={`${project?.gitRepoURL}`} title="view git repo"><ExternalLinkIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" /></a>
+                        {project?.hostedURL && <a target="_ismail" title="view live view of the project" href={`${project?.hostedURL}`} ><LinkIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" /></a>}
+                        <a target="_ismail" href={`${project?.gitRepoURL}`} title="view git repo"><ExternalLinkIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" /></a>
                     </div>
                     <article className="prose">
                         <ReactMarkdown remarkPlugins={[gfm]} >{project?.description as string}</ReactMarkdown>
