@@ -15,11 +15,11 @@ export default function Navbar() {
 
     return (
         <div className="sticky left-0 right-0 z-30 top-0 w-full h-16 items-center flex justify-center bg-white dark:bg-gray-900">
-            <div className="flex mx-auto sm:px-10 px-5 max-w-screen-2xl items-center justify-between relative w-full">
+            <div className="flex mx-auto sm:px-10 px-2 max-w-screen-2xl items-center justify-between relative w-full">
                 <div className="flex">
                     <Link to='/' className="text-2xl font-semibold text-blue-500">IsmailHsn</Link>
                 </div>
-                <div style={{ fontFamily: "'Nunito', sans-serif" }} className={`sm:gap-8 sm:pb-0 pb-5 gap-3 sm:px-0 px-5 flex items-start sm:bg-auto bg-white dark:bg-gray-900 sm:items-center sm:flex-row flex-col absolute top-10 sm:w-auto left-0 sm:static w-full ${isMenuBarOpen ? "sm:visible visible" : "sm:visible invisible"}`}>
+                <div style={{ fontFamily: "'Nunito', sans-serif" }} className={`sm:gap-8 sm:pb-0 pb-5 gap-3 flex items-start sm:bg-auto bg-white dark:bg-gray-900 sm:items-center sm:flex-row flex-col absolute top-10 sm:w-auto left-0 sm:static w-full ${isMenuBarOpen ? "sm:visible visible" : "sm:visible invisible"}`}>
                     <a target={'_ismail'} href="https://github.com/IsmailHosen696">
                         <i className="fab fa-github text-xl"></i>
                     </a>

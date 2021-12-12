@@ -4,9 +4,10 @@ import LoadingOn from './components/loading/LoadingOn';
 import AddProject from './pages/gen/AddProject';
 import AllProjects from './pages/gen/AllProjects';
 import Contact from './pages/gen/Contact';
+import EditProject from './pages/gen/EditProject';
 import Home from './pages/gen/Home';
 import NotFound from './pages/gen/NotFound';
-import Project from './pages/gen/Project';
+import ShowProject from './pages/gen/ShowProject';
 
 
 const RootPage = lazy(() => import('./pages/gen/Root'));
@@ -24,7 +25,8 @@ function App() {
               <Route path='/contact' element={<Contact />} />
               <Route path='/projects' element={<AllProjects />} />
               <Route path='/create/project/new' element={<AddProject />} />
-              <Route path='/show/project/:pId' element={<Project />} />
+              <Route path='/show/project/:pId' element={<ShowProject />} />
+              <Route path='/edit/project/:pId' element={<EditProject />} />
             </Route>
             <Route path='/signin' element={<Signin />} />
             <Route path='/signup' element={<Signup />} />

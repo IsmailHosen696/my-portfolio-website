@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { firestore } from "../db/firebase";
 import { projectType } from "../types";
 
@@ -12,10 +12,10 @@ export async function allProjectsFromFirbase() {
     return collectionList;
 }
 
-// export async function daleteNoteFromFirebase(id: string) {
-//     const deleteRef = await doc(firestore, 'projects', id);
-//     await deleteDoc(deleteRef);
-// }
+export async function deleteFirebaseProject(id: string) {
+    const deleteRef = await doc(firestore, 'projects', id);
+    await deleteDoc(deleteRef);
+}
 // export const updateFirebaseNote = async (nproject: projectType) => {
 //     const deleteRef = await doc(firestore, 'projects', nproject.id);
 //     updateDoc(deleteRef, nproject)
