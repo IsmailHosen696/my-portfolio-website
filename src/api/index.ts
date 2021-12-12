@@ -16,10 +16,10 @@ export async function deleteFirebaseProject(id: string) {
     const deleteRef = await doc(firestore, 'projects', id);
     await deleteDoc(deleteRef);
 }
-// export const updateFirebaseNote = async (nproject: projectType) => {
-//     const deleteRef = await doc(firestore, 'projects', nproject.id);
-//     updateDoc(deleteRef, nproject)
-// }
+export const updateFirebaseNote = async (nproject: projectType) => {
+    const projectRef = doc(firestore, 'projects', nproject.id);
+    await setDoc(projectRef, nproject, { merge: true });
+}
 
 export async function findProjectWithId(id: string) {
     const nameCollection = query(collection(firestore, 'projects'), where('id', '==', id));

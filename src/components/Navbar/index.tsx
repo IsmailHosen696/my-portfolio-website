@@ -19,7 +19,7 @@ export default function Navbar() {
                 <div className="flex">
                     <Link to='/' className="text-2xl font-semibold text-blue-500">IsmailHsn</Link>
                 </div>
-                <div style={{ fontFamily: "'Nunito', sans-serif" }} className={`sm:gap-8 sm:pb-0 pb-5 gap-3 flex items-start sm:bg-auto bg-white dark:bg-gray-900 sm:items-center sm:flex-row flex-col absolute top-10 sm:w-auto left-0 sm:static w-full ${isMenuBarOpen ? "sm:visible visible" : "sm:visible invisible"}`}>
+                <div style={{ fontFamily: "'Nunito', sans-serif" }} className={`sm:gap-8 sm:pb-0 pb-5 gap-3 flex items-start sm:bg-auto bg-white sm:px-0 px-2 dark:bg-gray-900 sm:items-center sm:flex-row flex-col absolute top-10 sm:w-auto left-0 sm:static w-full ${isMenuBarOpen ? "sm:visible visible" : "sm:visible invisible"}`}>
                     <a target={'_ismail'} href="https://github.com/IsmailHosen696">
                         <i className="fab fa-github text-xl"></i>
                     </a>

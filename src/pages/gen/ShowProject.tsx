@@ -38,7 +38,7 @@ export default function ShowProject() {
         <Fragment>
             <div className="w-full h-full flex items-center justify-center">
                 <div className="lg:w-7/12 w-full lg:px-0 px-2 mb-10 sm:px-10 max-w-screen-2xl flex flex-col gap-5 mx-auto ">
-                    <img src={project?.projectProfile} className="rounded" alt="project_profile_img" />
+                    <img src={project?.projectProfile} className="rounded shadow-lg" alt="project_profile_img" />
                     <div className="flex flex-col gap-2">
                         <h1 className="text-2xl font-black">{project?.headline}</h1>
                         <p className="text-sm">
@@ -58,7 +58,8 @@ export default function ShowProject() {
                     <article className="prose">
                         <ReactMarkdown remarkPlugins={[gfm]} >{project?.description as string}</ReactMarkdown>
                     </article>
-                    {user?.email === process.env.RREACT_APP_ADMIN_EMAIL &&
+                    {
+                        user && user.email === process.env.REACT_APP_ADMIN_EMAIL &&
                         <div className="flex w-full items-center gap-5">
                             <Link to={`/edit/project/${project?.id}`} className="btn btn-secondary w-20 py-2">Edit <DotsVerticalIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" /></Link>
                             <button onClick={() => { deleteProject(project?.id) }} className="btn py-2 h-10 w-20 btn-danger px-3">{loading ? <Loading /> : 'Delete'}</button>

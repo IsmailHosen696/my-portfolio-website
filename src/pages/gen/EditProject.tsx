@@ -2,7 +2,7 @@ import { XIcon } from "@heroicons/react/solid";
 import { FirebaseError } from "firebase/app";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { findProjectWithId } from "../../api";
+import { findProjectWithId, updateFirebaseNote } from "../../api";
 import Loading from "../../components/loading/Loading";
 import { useAuth } from "../../contexts/AuthProvider";
 import { projectType } from "../../types";
@@ -59,8 +59,39 @@ export default function EditProject() {
             setError(err.message);
         })
     }
+    useEffect(() => {
+        if (project) {
+            setHeadline(project.headline);
+            setDescription(project.description)
+            setImageUrl(project.projectProfile);
+            setLinks({ hostedURL: project.hostedURL, gitRepoURL: project.gitRepoURL });
+        }
+        return
+    }, [params.pId, project])
+
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
+        setError('');
+        setLoading(true);
+        if (project) {
+            let payload: projectType = {
+                id: params.pId as string,
+                headline: headline as string,
+                description: description as string,
+                hostedURL: links.hostedURL,
+                gitRepoURL: links.gitRepoURL as string,
+                projectProfile: imageUrl as string,
+                timestamp: project.timestamp
+            }
+            updateFirebaseNote(payload).then(() => {
+                setLoading(false);
+                setMessage('project updated')
+            }).catch((err: FirebaseError) => {
+                setLoading(false);
+                setError(err.message)
+            })
+        }
+        return
     }
     return (
         <div className="flex flex-col w-full">
@@ -72,32 +103,32 @@ export default function EditProject() {
                     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                         <div className="gap-2 flex flex-col">
                             <label htmlFor="postProfile">Post profile</label>
-                            <input autoComplete="off" value={imageUrl ? imageUrl : project?.projectProfile} onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)} placeholder="paste the image url which I get by uploading that is auto copied into clipboard" type="text" id="postProfile" className="outline-none dark:border-gray-700 px-2 py-1 border bg-transparent rounded h-10" />
+                            <input autoComplete="off" value={imageUrl} onChange={(e: ChangeEvent<HTMLInputElement>) => setImageUrl(e.target.value)} placeholder="paste the image url which I get by uploading that is auto copied into clipboard" type="text" id="postProfile" className="outline-none dark:border-gray-700 px-2 py-1 border bg-transparent rounded h-10" />
                         </div>
                         <div className="gap-2 flex flex-col">
                             <label htmlFor="projectHeading">Headline</label>
-                            <input autoComplete="off" value={headline ? headline : project?.headline} onChange={(e: ChangeEvent<HTMLInputElement>) => setHeadline(e.target.value)} placeholder="project showcase headline" type="text" id="projectHeading" className="outline-none dark:border-gray-700 px-2 py-1 border bg-transparent rounded h-10" />
+                            <input autoComplete="off" value={headline} onChange={(e: ChangeEvent<HTMLInputElement>) => setHeadline(e.target.value)} placeholder="project showcase headline" type="text" id="projectHeading" className="outline-none dark:border-gray-700 px-2 py-1 border bg-transparent rounded h-10" />
                         </div>
                         <div className="gap-2 flex flex-col">
                             <label htmlFor="projectHeading">HostedUrl</label>
-                            <input autoComplete="off" value={links.hostedURL ? links.hostedURL : project?.hostedURL} onChange={(e: ChangeEvent<HTMLInputElement>) => setLinks({ ...links, hostedURL: e.target.value })} placeholder="hosted or published url" type="text" id="projectHeading" className="outline-none dark:border-gray-700 px-2 py-1 border bg-transparent rounded h-10" />
+                            <input autoComplete="off" value={links.hostedURL} onChange={(e: ChangeEvent<HTMLInputElement>) => setLinks({ ...links, hostedURL: e.target.value })} placeholder="hosted or published url" type="text" id="projectHeading" className="outline-none dark:border-gray-700 px-2 py-1 border bg-transparent rounded h-10" />
                         </div>
                         <div className="gap-2 flex flex-col">
                             <label htmlFor="projectHeading">Git Repository Url</label>
-                            <input autoComplete="off" value={links.gitRepoURL ? links.gitRepoURL : project?.gitRepoURL} onChange={(e: ChangeEvent<HTMLInputElement>) => setLinks({ ...links, gitRepoURL: e.target.value })} placeholder="git repository url" type="text" id="projectHeading" className="outline-none dark:border-gray-700 px-2 py-1 border bg-transparent rounded h-10" />
+                            <input autoComplete="off" value={links.gitRepoURL} onChange={(e: ChangeEvent<HTMLInputElement>) => setLinks({ ...links, gitRepoURL: e.target.value })} placeholder="git repository url" type="text" id="projectHeading" className="outline-none dark:border-gray-700 px-2 py-1 border bg-transparent rounded h-10" />
                         </div>
                         <div className="gap-2 flex flex-col">
                             <label htmlFor="projectDescription">Description</label>
-                            <textarea value={description ? description : project?.description} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} placeholder="project description ( can me markdown )" id="projectDescription" className="outline-none rounded resize-none h-40 px-2 py-1 bg-transparent dark:border-gray-700 border" ></textarea>
+                            <textarea value={description} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)} placeholder="project description ( can me markdown )" id="projectDescription" className="outline-none rounded resize-none h-40 px-2 py-1 bg-transparent dark:border-gray-700 border" ></textarea>
                         </div>
                         <div className="flex flex-row gap-4">
                             <h1>Choose a cover photo </h1>
                             <label htmlFor="image" className="px-2 cursor-pointer text-sm py-1 bg-gray-700 text-gray-200 rounded">Choose</label>
                             <input onChange={(e: ChangeEvent<HTMLInputElement>) => setFile(e.target.files)} type="file" id="image" className="opacity-0 hidden" />
                         </div>
-                        <div className="flex gap-5 flex-col">
-                            <button className="w-full btn h-10 btn-success">{loading ? <Loading /> : 'Update'}</button>
-                            <Link to='/' className="w-full  btn btn-danger h-10">Cancel</Link>
+                        <div className="flex gap-5 float-right">
+                            <button className="w-20 btn h-10 btn-success">{loading ? <Loading /> : 'Update'}</button>
+                            <Link to='/' className="w-20  btn btn-secondary h-10">Back</Link>
                         </div>
                     </form>
                     <div className="flex relative">
@@ -108,7 +139,7 @@ export default function EditProject() {
                                 <button disabled={loading} type="button" className="absolute top-2 right-2" onClick={() => { setTempUrl(null); setFile(null) }}>
                                     <XIcon className="w-5 h-5 text-gray-600" />
                                 </button>
-                                <button disabled={loading} type="button" onClick={handleUploadImage} className="w-full btn btn-primary">{loading ? <Loading /> : 'Upload & get url'}</button>
+                                <button disabled={loading} type="button" onClick={handleUploadImage} className="w-full h-10 btn btn-primary">{loading ? <Loading /> : 'Upload & get url'}</button>
                             </div>
                         }
                     </div>

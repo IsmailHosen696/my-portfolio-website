@@ -14,7 +14,7 @@ export default function ProjectMap({ id,
 
     return (
         <Link to={`/show/project/${id}`} className="group w-full gap-3 flex flex-col">
-            <img src={projectProfile} alt="showcase_image" className="rounded" />
+            <img src={projectProfile} alt="showcase_image" className="rounded h-96 object-cover shadow-lg" />
             <p className="text-sm">
                 {
                     new Date(time).toLocaleDateString("en-US", {
