@@ -7,12 +7,13 @@ import { projectType } from "../../types";
 import gfm from 'remark-gfm'
 import { DotsVerticalIcon, ExternalLinkIcon, LinkIcon } from "@heroicons/react/solid";
 import Loading from "../../components/loading/Loading";
+import { useAuth } from "../../contexts/AuthProvider";
 
 export default function ShowProject() {
     const params = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false)
-
+    const { user } = useAuth();
     const [project, setProject] = useState<projectType | null>(null);
     useEffect(() => {
         findProjectWithId(params.pId as string).then((data) => {
@@ -57,10 +58,12 @@ export default function ShowProject() {
                     <article className="prose">
                         <ReactMarkdown remarkPlugins={[gfm]} >{project?.description as string}</ReactMarkdown>
                     </article>
-                    <div className="flex w-full items-center gap-5">
-                        <Link to={`/edit/project/${project?.id}`} className="btn btn-secondary w-20 py-2">Edit <DotsVerticalIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" /></Link>
-                        <button onClick={() => { deleteProject(project?.id) }} className="btn py-2 h-10 w-20 btn-danger px-3">{loading ? <Loading /> : 'Delete'}</button>
-                    </div>
+                    {user?.email === process.env.RREACT_APP_ADMIN_EMAIL &&
+                        <div className="flex w-full items-center gap-5">
+                            <Link to={`/edit/project/${project?.id}`} className="btn btn-secondary w-20 py-2">Edit <DotsVerticalIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" /></Link>
+                            <button onClick={() => { deleteProject(project?.id) }} className="btn py-2 h-10 w-20 btn-danger px-3">{loading ? <Loading /> : 'Delete'}</button>
+                        </div>
+                    }
                 </div>
             </div>
         </Fragment>
