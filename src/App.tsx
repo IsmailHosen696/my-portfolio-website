@@ -12,7 +12,6 @@ import ShowProject from './pages/gen/ShowProject';
 
 const RootPage = lazy(() => import('./pages/gen/Root'));
 const Signin = lazy(() => import('./pages/auth/Signin'));
-const Signup = lazy(() => import('./pages/auth/Signup'));
 
 function App() {
   return (
@@ -29,7 +28,6 @@ function App() {
               <Route path='/edit/project/:pId' element={<EditProject />} />
             </Route>
             <Route path='/signin' element={<Signin />} />
-            <Route path='/signup' element={<Signup />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </Router>

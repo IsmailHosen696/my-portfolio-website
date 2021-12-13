@@ -59,7 +59,7 @@ export default function ShowProject() {
                         <ReactMarkdown remarkPlugins={[gfm]} >{project?.description as string}</ReactMarkdown>
                     </article>
                     {
-                        user && user.email === process.env.REACT_APP_ADMIN_EMAIL &&
+                        user?.isAdmin &&
                         <div className="flex w-full items-center gap-5">
                             <Link to={`/edit/project/${project?.id}`} className="btn btn-secondary w-20 py-2">Edit <DotsVerticalIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" /></Link>
                             <button onClick={() => { deleteProject(project?.id) }} className="btn py-2 h-10 w-20 btn-danger px-3">{loading ? <Loading /> : 'Delete'}</button>

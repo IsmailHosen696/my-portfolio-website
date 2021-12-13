@@ -24,7 +24,7 @@ export default function Navbar() {
                         <i className="fab fa-github text-xl"></i>
                     </a>
                     <NavLink className="text-lg hover:text-gray-700 dark:hover:text-gray-300" to='/projects'>
-                        Project
+                        Projects
                     </NavLink>
                     {user?.isAdmin ?
                         <NavLink to='/create/project/new' className='text-lg hover:text-gray-700 dark:hover:text-gray-300'>
