@@ -17,7 +17,13 @@ export default function AddProject() {
     const { imageUrlMaker } = useAuth()
     const [headline, setHeadline] = useState<string>('');
     const [description, setDescription] = useState<string>('')
-    const [links, setLinks] = useState<{ gitRepoURL: string, hostedURL: string | undefined }>({ hostedURL: "", gitRepoURL: '' })
+    const [links, setLinks] = useState<{
+        gitRepoURL: string,
+        hostedURL: string | undefined
+    }>({
+        hostedURL: "",
+        gitRepoURL: ''
+    })
 
     useEffect(() => {
         if (file) {

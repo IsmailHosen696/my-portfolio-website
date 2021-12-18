@@ -69,7 +69,7 @@ export default function AuthProvider(props: { children: any }) {
     }
     useEffect(() => {
         allProjects()
-    }, [project]);
+    }, []);
 
     const value = {
         logout,
