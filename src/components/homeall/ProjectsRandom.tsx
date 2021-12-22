@@ -8,7 +8,7 @@ export default function ProjectsRandom() {
     const { project } = useAuth();
 
     useEffect(() => {
-        if (randomProject.length <= 4) {
+        if (randomProject.length < 4) {
             project.forEach((item) => {
                 if (!randomProject.includes(item)) {
                     setRandomProject([...randomProject, item]);
