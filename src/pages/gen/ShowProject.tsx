@@ -8,6 +8,8 @@ import gfm from 'remark-gfm'
 import { DotsVerticalIcon, ExternalLinkIcon, LinkIcon } from "@heroicons/react/solid";
 import Loading from "../../components/loading/Loading";
 import { useAuth } from "../../contexts/AuthProvider";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function ShowProject() {
     const params = useParams();
@@ -38,7 +40,13 @@ export default function ShowProject() {
         <Fragment>
             <div className="w-full h-full flex items-center justify-center">
                 <div className="lg:w-7/12 w-full lg:px-0 px-2 mb-10 sm:px-10 max-w-screen-2xl flex flex-col gap-5 mx-auto ">
-                    <img src={project?.projectProfile} className="rounded shadow-lg" alt="project_profile_img" />
+                    {
+                        project ?
+                            <img src={project?.projectProfile} className="rounded shadow-lg" alt="project_profile_img" />
+                            :
+                            <Skeleton className="w-full h-48" />
+                    }
+
                     <div className="flex flex-col gap-2">
                         <h1 className="text-2xl font-black">{project?.headline}</h1>
                         <p className="text-sm">
